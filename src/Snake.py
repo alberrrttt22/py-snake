@@ -12,3 +12,14 @@ class Snake:
 
     def head(self):
         return self.body[-1]
+
+    def move(self):
+        newHead = self.next_head()
+        self.body.append(newHead)
+        self.body.pop(0)
+    
+    def next_head(self):
+        headRow, headCol = self.head()
+        dirRow, dirCol = self.direction
+        newHead = (headRow + dirRow, headCol + dirCol)
+        return newHead
