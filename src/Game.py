@@ -12,7 +12,7 @@ class Game:
     def __init__(self, height, width):
         self.height = height
         self.width = width
-        self.snake = Snake([(1,5), (2,5), (3,5), (4,5)], DOWN)
+        self.snake = Snake([(1,5), (2,5), (3,5), (4,5), (5,5), (6,5)], DOWN)
     
     def board_matrix(self):
         board = [[" " for i in range(self.width)] for j in range(self.height)]
@@ -42,11 +42,12 @@ class Game:
         return INPUT_TO_DIR.get(cmd, None)
     
     def render(self):
-        print(self.board_matrix())
+        print(self.board_matrix()) 
     
     def run(self):
         while True:
             self.render()
+            tail = self.snake.body[0]
             cmd = self.get_input()
 
             if cmd and not self.is_opposite(cmd, self.snake.direction):
@@ -55,7 +56,9 @@ class Game:
             if self.hit_wall(self.snake.next_head()):
                 print("Game Over. You hit a wall.")
                 break
-
+            if self.snake.next_head() in self.snake.body_set and self.snake.next_head() != tail:
+                print("Game Over. You hit your own body.")
+                break
             self.snake.move()
 
             
